@@ -8,9 +8,9 @@ SPDX-License-Identifier: GPL-3.0-only
 # Identifying Privacy Personas
 
 - This is the code accompanying the following paper O. Hrynenko, A. Cavallaro, "Identifying Privacy Personas" paper, accepted at Proceeding on Privacy Enhancement Technologies, 2025.
-- This code computes the dissimilarity matrix and constructs a dendrogram (without pruning) as part of its processing pipeline.
-- We provide our code with sample data for demonstration purposes ```feature_vector_generation_set_p_dummy.csv``` and ```feature_vector_generation_set_p_dummy_prime.csv```.
-- The paper includes both qualitative and quantitative analyses. The code lays the groundwork for the previously conducted qualitative analysis, Grounded Theory. The output of this code can be used for the subsequent quantitative analysis, namely [Boschloo's test](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.boschloo_exact.html).
+- This code computes the dissimilarity matrix and constructs a dendrogram (without pruning) as part of a processing pipeline described in the paper.
+- We provide our code with sample data for demonstration purposes `feature_vector_generation_set_p_dummy.csv` and `feature_vector_generation_set_p_dummy_prime.csv`.
+- The paper includes both qualitative and quantitative analyses. The code builds on the previously conducted qualitative analysis (coding, trait formation, annotation). The output of this code can be used for the subsequent quantitative analysis, namely [Boschloo's test](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.boschloo_exact.html).
 
 
 ## Install
@@ -33,11 +33,11 @@ pip install .
 
 Open the `constants.py` file to provide the following essential information:
 
-- `path_to_data` – a path to your data folder.
+- `path_to_data` – the path to your data folder.
 - `feature_vector_generation_set_p` – the name of the participants' feature vectors, $p_i$,
 - `feature_vector_generation_set_p_prime` – the name of the participants' feature vectors, $p_i’$,
 - `max_likert_distance` – the maximum possible distance between the participants in the Likert space,
-- `number_of_likert_variables` – the number of the Likert explanatory variables
+- `number_of_likert_variables` – the number of the Likert explanatory variables,
 - `num_of_participants_generation_set` – the number of the participants in the generation set.
 
 ## Usage
@@ -93,7 +93,7 @@ unparsing_for_python(path_to_data = path_to_data,
 
 ### Saving clusters’ descriptors, cluster sizes, and cluster splits
 
-In the paper, we represent a descriptor as the frequency of appearance of the traits in a cluster. For further use of this pipeline, namely for  Boschloo's test, we store the count of how many times a trait has appeared and the number of people in a cluster separately. 
+In the paper, we represent a descriptor as the frequency of appearance of the traits in a cluster. For further use of the pipeline described in the paper, namely for  Boschloo's test, we recommend storing the count of how many times a trait appeared and the number of people in a cluster separately.
 
 ```python
 save_descriptors_to_table(path_to_data = path_to_data, 
