@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "ipp"
+version = "0.1.0"
+description = "identifying privacy personas"
+authors = ["Olena Hrynenko <olena.hrynenko@idiap.ch>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "~3.10"
+pandas = "^2.2.3"
+numpy = "^2.1.1"
+scipy = "^1.14.1"
+matplotlib = "^3.9.2"
+
+
+[tool.poetry.group.dev.dependencies]
+reuse = "^4.0.3"
+pip-licenses = "^5.0.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
