@@ -17,18 +17,18 @@ Requested Badge: **Available**.
 
 - This is the code accompanying the following paper O. Hrynenko, A. Cavallaro, "Identifying Privacy Personas" paper, accepted at Proceeding on Privacy Enhancement Technologies, 2025.
 - This code computes the dissimilarity matrix and constructs a dendrogram (without pruning) as part of a processing pipeline described in the paper.
-- We provide our code with sample data for demonstration purposes `feature_vector_generation_set_p_dummy.csv` and `feature_vector_generation_set_p_dummy_prime.csv`.
+- We provide randomly generated dummy data for demonstration purposes `feature_vector_generation_set_p_dummy.csv` and `feature_vector_generation_set_p_dummy_prime.csv`.
 - The paper includes both qualitative and quantitative analyses. The code builds on the previously conducted qualitative analysis (coding, trait formation, annotation). The output of this code can be used for the subsequent quantitative analysis, namely [Boschloo's test](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.boschloo_exact.html).
   
 ### Security/Privacy Issues and Ethical Concerns
 
-The provided code does not pose security/privacy issues, since the code can be run locally. An ethical concern could arise in the case of questionnaire data collection. In such case, an ethical approval must be obtained.
+The provided code does not pose security/privacy issues, since the code can be run locally. In the case of questionnaire data collection, ethical approval must be obtained. Note that we did not conduct questionnaire data collection in our study. 
 
 ## Environment 
 
 ### Accessibility
 
-To access the artifacts, please follow the following [link](https://github.com/idiap/identifying-privacy-personas). 
+To access the artifacts, please follow the [link](https://github.com/idiap/identifying-privacy-personas). 
 
 #### Installation
 
