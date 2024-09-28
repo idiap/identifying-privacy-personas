@@ -9,7 +9,7 @@ SPDX-License-Identifier: GPL-3.0-only
 
 - This is the code accompanying the following paper O. Hrynenko, A. Cavallaro, "Identifying Privacy Personas" paper, accepted at Proceeding on Privacy Enhancement Technologies, 2025.
 - This code computes the dissimilarity matrix and constructs a dendrogram (without pruning) as part of a processing pipeline described in the paper.
-- We provide our code with sample data for demonstration purposes `feature_vector_generation_set_p_dummy.csv` and `feature_vector_generation_set_p_dummy_prime.csv`.
+- We provide randomly generated dummy data for demonstration purposes `feature_vector_generation_set_p_dummy.csv` and `feature_vector_generation_set_p_dummy_prime.csv`.
 - The paper includes both qualitative and quantitative analyses. The code builds on the previously conducted qualitative analysis (coding, trait formation, annotation). The output of this code can be used for the subsequent quantitative analysis, namely [Boschloo's test](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.boschloo_exact.html).
 
 
