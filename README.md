@@ -53,7 +53,7 @@ Run `./scripts/run.sh`
 
 #### Computing the dissimilarity matrix (see Section 5.1 from the paper for details)
 
-The input to this step is a `feature_vector_generation_set_p_prime` file that contains $\bm{p_i}'$ representation of participant $i$, a feature vector of Likert and binary explanatory variables.
+The input to this step is a `feature_vector_generation_set_p_prime` file that contains $p_i'$ representation of participant $i$, a feature vector of Likert and binary explanatory variables.
 
 ```python
 compute_dissimilarity_matrix(path_to_data = path_to_data, 
