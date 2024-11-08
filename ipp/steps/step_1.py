@@ -6,6 +6,7 @@
 import pandas as pd
 import numpy as np
 import scipy as sc
+from pathlib import Path
 
 from ipp.constants import  (
     path_to_data, 
@@ -78,11 +79,13 @@ def dissim_measure(likert_data, not_likert_data, likert_data_val = None, not_lik
 
 
 def compute_dissimilarity_matrix(path_to_data, input_file_name, outfile_name, save = True):
-    all_data = pd.read_csv(f"{path_to_data}/{input_file_name}", index_col = 0)
+    path_input = Path(path_to_data) / Path(input_file_name)
+    path_output = Path(path_to_data) / Path(outfile_name)
+    all_data = pd.read_csv(path_input, index_col = 0)
     likert_X = all_data.iloc[:, 0:number_of_likert_variables]
     not_likert_X = all_data.iloc[:, number_of_likert_variables:-1]
     d = dissim_measure(likert_X, not_likert_X)
-    d.to_csv(f"{path_to_data}/{outfile_name}")
+    d.to_csv(path_output)
     print(f"Saved the dissimilarity matrix for {input_file_name} to {outfile_name} file.")
 
 if __name__ == "__main__":

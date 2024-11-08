@@ -3,15 +3,15 @@
 #
 # SPDX-License-Identifier: GPL-3.0-only
 
-path_to_data="ADD YOUR PATH HERE" 
+path_to_data="dummy_data" 
 
 max_likert_distance=50
 number_of_likert_variables=14
 
 num_of_participants_generation_set=30
 
-path_to_r_results="R_output_generation_set/"
-path_to_parsed_results="Converted_R_output_generation_set/"
+path_to_r_results="R_output_generation_set"
+path_to_parsed_results="Converted_R_output_generation_set"
 
 feature_vector_generation_set_p="feature_vector_generation_set_p_dummy.csv"
 feature_vector_generation_set_p_prime="feature_vector_generation_set_p_prime_dummy.csv"

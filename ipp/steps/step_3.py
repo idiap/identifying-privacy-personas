@@ -6,6 +6,7 @@
 import pandas as pd
 import numpy as np
 import pickle
+from pathlib import Path
 
 from ipp.constants import (
     path_to_data, 
@@ -17,30 +18,30 @@ from ipp.constants import (
     )
 
 def unparsing_for_python(path_to_data, file_name_binary_descriptor, path_to_r_results, path_to_parsed_results):  
-    all_participants = pd.read_csv(f"{path_to_data}/{file_name_binary_descriptor}", index_col = 0)
+    path_binary_descriptor = Path(path_to_data) / Path(file_name_binary_descriptor)
+    all_participants = pd.read_csv(path_binary_descriptor, index_col = 0)
     all_participants = all_participants.transpose()
     n_pariticipants = all_participants.shape[0]
     
-    path_to_assignments = f"{path_to_data}/{path_to_r_results}/"
-    path_to_save_assignments = f"{path_to_data}/{path_to_parsed_results}/"
+    path_to_assignments = Path(path_to_data) / Path(path_to_r_results)
+    path_to_save_assignments = Path(path_to_data) / Path(path_to_parsed_results)
     
-    files = [f"cluster_labels_level_{i}.csv" for i in range(1, n_pariticipants + 1)]
+    files = [Path(f"cluster_labels_level_{i}.csv") for i in range(1, n_pariticipants + 1)]
 
     for level_file_name in files:
-
         #reading the cluster level
-        level = level_file_name.split("_")[-1].split(".")[0]
+        level = str(level_file_name).split("_")[-1].split(".")[0]
 
         #reading the level assignements
-        level_assignments = pd.read_csv(path_to_assignments + level_file_name, index_col = 0)
+        level_assignments = pd.read_csv(path_to_assignments / level_file_name, index_col = 0)
 
         result = pd.concat([level_assignments, all_participants], axis=1)
         result['assignment'] = result['assignment'].apply(lambda x: f"{level}.{x}")
 
-        for l in range(1, int(level) + 1):  
-            cluster = f"{level}.{l}"
+        for lvl in range(1, int(level) + 1):  
+            cluster = f"{level}.{lvl}"
             result_tmp = result[result["assignment"] == cluster]
-            file_name_to_save = path_to_save_assignments + cluster +".csv"
+            file_name_to_save = path_to_save_assignments / Path(cluster +".csv")
             result_tmp.to_csv(file_name_to_save, index = True)
             print(f"Saved {cluster} to a file.")
 
@@ -48,9 +49,9 @@ def read_absolute_indices_of_cluster_elements(path_to_saved_assignments, number_
     absolute_indicies = []
 
     for i in range(1, number_of_participants + 1): #iterating over number of clusters in a split
-      path = f"{path_to_saved_assignments}cluster_labels_level_{i}.csv"
-      tmp_1 = pd.read_csv(path)
-      lab = np.array(list(tmp_1['assignment']))
+      path = Path(path_to_saved_assignments) / Path(f"cluster_labels_level_{i}.csv")
+      tmp = pd.read_csv(path)
+      lab = np.array(list(tmp['assignment']))
       lab = lab -1
       absolute_indicies_at_lvl_i = []
       for j in range(i):
@@ -67,7 +68,8 @@ def read_absolute_indices_of_cluster_elements(path_to_saved_assignments, number_
     return absolute_indicies
 
 def save_cluster_splits(path_to_data, path_to_r_results, number_of_participants, outfile_name, save_to_text = True):
-    absolute_indicies = read_absolute_indices_of_cluster_elements(f"{path_to_data}/{path_to_r_results}", number_of_participants)     
+    path_absolute_indices_of_cluster_elements = Path(path_to_data) / Path(path_to_r_results)
+    absolute_indicies = read_absolute_indices_of_cluster_elements(path_absolute_indices_of_cluster_elements, number_of_participants)     
 
     if save_to_text: 
       to_save = ""
@@ -118,25 +120,28 @@ def save_cluster_splits(path_to_data, path_to_r_results, number_of_participants,
       clusters_that_are_split.loc[index_to_use] = [f"{parent_level+1 +1}.{child_nodes[0]+1}", f"{parent_level+1 +1}.{child_nodes[1]+1}"]
       print("At level " +str(parent_level+1)+", cluster number "+str(parent_ind+1)+" was split into clusters "+str(child_nodes[0]+1)+" and "+str(child_nodes[1]+1))
 
-    clusters_that_are_split.to_csv(f"{path_to_data}/{outfile_name}", index = True)
+    path_to_save_data = Path(path_to_data) / Path(outfile_name)
+    clusters_that_are_split.to_csv(path_to_save_data, index = True)
     print(f"Saved cluster splits to {outfile_name}")
           
     if save_to_text:
       text_outfile_name = outfile_name[0:-4]
-      text_file = open(f"{path_to_data}/{text_outfile_name}_and_renaming_convention.txt", "w")
+      path_to_save_data_txt = Path(path_to_data) / Path(text_outfile_name+"_and_renaming_convention.txt")
+      text_file = open(path_to_save_data_txt, "w")
       text_file.write(to_save)
       text_file.close()
       print(f"Saved cluster splits and renaming conventions to {text_outfile_name}_and_renaming_convention.txt")
 
 def read_trait_list(path_to_data, path_to_parsed_results):
-    path_to_assignments = f"{path_to_data}/{path_to_parsed_results}"
-    all_traits = pd.read_csv(path_to_assignments+"1.1.csv", index_col = 0).columns
+    path_to_assignments = Path(path_to_data) / Path(path_to_parsed_results)
+    all_traits = pd.read_csv((path_to_assignments / Path("1.1.csv")), index_col = 0).columns
     count_for_all_traits = pd.DataFrame()
     count_for_all_traits.index = all_traits[1:] # need to drop the label
     return count_for_all_traits #the output is an empty df with the list of all traits as indicies
 
 def read_descriptor(path_to_data, path_to_parsed_results, name):
-  descriptor = pd.read_csv(path_to_data+"/"+path_to_parsed_results+name+".csv", index_col=0)
+  path = Path(path_to_data) / Path(path_to_parsed_results) / Path(name + ".csv")
+  descriptor = pd.read_csv(path, index_col=0)
   descriptor = descriptor.drop(["assignment"], axis = 1) #removing the label assignment
   descriptor = descriptor.sum()
   descriptor.name = f"{name}"
@@ -157,11 +162,12 @@ def read_all_descriptors(path_to_data, path_to_parsed_results, files, count_for_
         count_for_all_traits = pd.concat((count_for_all_traits, read_descriptor(path_to_data = path_to_data, 
                                                                                 path_to_parsed_results = path_to_parsed_results,
                                                                                 name = name)), axis=1)
-        print(f"Have written information about {name} cluster")
+        print(f"Have read information about {name} cluster")
     return count_for_all_traits
 
 def save_all_descriptors(path_to_data, folder_to_parsed_results, count_for_all_traits, outfile_name = "Parsed table.csv"):
-   count_for_all_traits.to_csv(f"{path_to_data}/{outfile_name}", index = True)
+   path = Path(path_to_data) / Path(outfile_name)
+   count_for_all_traits.to_csv(path, index = True)
 
 def save_descriptors_to_table(path_to_data, path_to_parsed_results, number_of_participants):
    count_for_all_traits = read_trait_list(path_to_data, path_to_parsed_results)
@@ -171,7 +177,8 @@ def save_descriptors_to_table(path_to_data, path_to_parsed_results, number_of_pa
    return(count_for_all_traits)
 
 def count_members(path_to_data, path_to_parsed_results, name):
-  descriptor = pd.read_csv(f"{path_to_data}/{path_to_parsed_results}{name}.csv", index_col=0)
+  path = Path(path_to_data) / Path(path_to_parsed_results) / Path(name + ".csv")
+  descriptor = pd.read_csv(path, index_col=0)
   descriptor = descriptor.drop(["assignment"], axis = 1)
   return descriptor.shape[0] #corresponds to the number of ppl in the cluster
 
@@ -183,7 +190,8 @@ def save_number_of_ppl_to_dictionary(path_to_data, path_to_parsed_results, numbe
     desc = count_members(path_to_data, path_to_parsed_results, name)
     count_descriptors[name] = desc
     print(f"Read {i}")
-  with open(f'{path_to_data}/{outfile_name}.pkl', 'wb') as f:
+  path = Path(path_to_data) / Path(outfile_name + ".pkl")
+  with open(path, 'wb') as f:
     pickle.dump(count_descriptors, f)
   print(f"Saved cluster sizes to {outfile_name}.pkl")
   return count_descriptors
