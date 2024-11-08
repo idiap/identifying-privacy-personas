@@ -13,7 +13,7 @@ SPDX-License-Identifier: GPL-3.0-only
 - The paper includes both qualitative and quantitative analyses. The code builds on the previously conducted qualitative analysis (coding, trait formation, annotation). The output of this code can be used for the subsequent quantitative analysis, namely [Boschloo's test](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.boschloo_exact.html).
 
 
-## Install
+## Install and Setup
 
 Install R:
 
@@ -21,24 +21,27 @@ Install R:
 sudo apt install r-base-core
 ```
 
-Clone the project and install it:
+Clone the project:
 
 ```bash
-git clone git@github.com/idiap/identifying-privacy-personas.git
-cd ipp 
-pip install .
+git clone git@github.com:idiap/identifying-privacy-personas.git
+cd identifying-privacy-personas
 ```
-
-## Setup
 
 Open the `constants.py` file to provide the following essential information:
 
-- `path_to_data` – the path to your data folder.
+- `path_to_data` – the name of your data folder.
 - `feature_vector_generation_set_p` – the name of the participants' feature vectors, $p_i$,
 - `feature_vector_generation_set_p_prime` – the name of the participants' feature vectors, $p_i’$,
 - `max_likert_distance` – the maximum possible distance between the participants in the Likert space,
 - `number_of_likert_variables` – the number of the Likert explanatory variables,
 - `num_of_participants_generation_set` – the number of the participants in the generation set.
+
+Install the project:
+
+```bash
+pip install .
+```
 
 ## Usage
 
